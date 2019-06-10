@@ -11,7 +11,7 @@
 			} else={
 				:set signal ($info->"rssi")
 			}
-:set operator "external";
+##:set operator "external";
 :log info $at
 :log info $operator
 :log info $signal
@@ -22,11 +22,12 @@
 :local gps [/system gps monitor once as-value]
 :local lat ($gps->"latitude")
 :local long ($gps->"longitude")
+:local speed ($gps->"speed")
 
 
-tool fetch mode=http url="http://inwhite.com.ua/matrisa.php" port=80 http-method=post http-data=("{\"lac\":\"" . $lac . "\",\"cid\":\"" . $cid . "\",\"at\":\"" . $at . "\",\"operator\":\"" . $operator . "\", \"signal\":\"" . $signal . "\", \"lat\":\"" . $lat . "\",\"long\":\"" . $long . "\"}") http-header-field="Content-Type: application/json" 
+:local stat [/tool fetch mode=http url="http://inwhite.com.ua/matrisa.php" port=80 http-method=post http-data=("{\"lac\":\"" . $lac . "\",\"cid\":\"" . $cid . "\",\"at\":\"" . $at . "\",\"operator\":\"" . $operator . "\", \"signal\":\"" . $signal . "\", \"lat\":\"" . $lat . "\",\"long\":\"" . $long . "\", \"speed\":\"" . $speed . "\"}") http-header-field="Content-Type: application/json" output=none]
 
-:put ("{\"lac\":\"" . $lac . "\",\"cid\":\"" . $cid . "\",\"at\":\"" . $at . "\",\"operator\":\"" . $operator . "\", \"signal\":\"" . $signal . "\", \"lat\":\"" . $lat . "\", \"long\":\"" . $long . "\",}")
+:put ("{\"lac\":\"" . $lac . "\",\"cid\":\"" . $cid . "\",\"at\":\"" . $at . "\",\"operator\":\"" . $operator . "\", \"signal\":\"" . $signal . "\", \"lat\":\"" . $lat . "\", \"long\":\"" . $long . "\", \"speed\":\"" . $speed . "\"}")
 
 }
 
